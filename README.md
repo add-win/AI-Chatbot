@@ -1,6 +1,6 @@
 # AI Chatbot
 
-A simple full-stack chatbot application featuring a React (Vite) frontend and an Express Node.js backend integration with the Cohere API.
+A simple full-stack chatbot application featuring a React (Vite) frontend and an Express Node.js backend integration with the Groq API.
 
 ---
 
@@ -8,7 +8,7 @@ A simple full-stack chatbot application featuring a React (Vite) frontend and an
 
 - **React + Vite Frontend**: Fast development server and builds.
 - **Express Backend**: Proxy server protecting your API keys and routing requests.
-- **Cohere API Integration**: Generates natural language responses using Cohere's AI model.
+- **Groq API Integration**: Generates natural language responses using high-speed LLMs (e.g., Llama 3.3).
 - **Real-Time UI State**: Typing indicator and conversation history bubble display.
 
 ---
@@ -34,7 +34,7 @@ ai-chatbot/
 
 ### 1. Prerequisites
 - **Node.js**: Ensure you have Node.js installed (v16+ recommended).
-- **Cohere API Key**: Get your free API key from the [Cohere Dashboard](https://dashboard.cohere.com/).
+- **Groq API Key**: Get your API key from the [Groq Console](https://console.groq.com/).
 
 ### 2. Backend Setup
 1. Navigate to the `backend` directory:
@@ -49,9 +49,9 @@ ai-chatbot/
    ```bash
    cp .env.example .env
    ```
-4. Open the `.env` file and insert your Cohere API Key:
+4. Open the `.env` file and insert your Groq API Key:
    ```env
-   COHERE_API_KEY=your_cohere_api_key_here
+   GROQ_API_KEY=your_groq_api_key_here
    ```
 5. Start the backend server:
    ```bash
@@ -96,4 +96,5 @@ ai-chatbot/
 
 ## 🔒 Security Notes
 - **Never commit your `.env` file** to GitHub or any version control system. It has been added to the root `.gitignore` file to prevent accidental leaks.
-- Ensure the Cohere API Key is kept secure and rotated if it is exposed.
+- Ensure the Groq API Key is kept secure and rotated if it is exposed.
+

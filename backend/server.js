@@ -2,13 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const axios = require('axios');
+const Groq = require('groq-sdk');
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const COHERE_API_KEY = process.env.COHERE_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+
+const groq = new Groq({
+  apiKey: GROQ_API_KEY,
+});
 
 app.post('/chat', async (req, res) => {
   const { message } = req.body;
@@ -18,30 +22,24 @@ app.post('/chat', async (req, res) => {
   }
 
   try {
-    const response = await axios.post(
-      'https://api.cohere.ai/v1/generate',
-      {
-        model: 'command', // ✅ Correct for /generate
-        prompt: message,
-        max_tokens: 300,
-        temperature: 0.7,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${COHERE_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [
+        { role: 'user', content: message },
+      ],
+      model: 'llama-3.3-70b-versatile',
+      max_tokens: 300,
+      temperature: 0.7,
+    });
 
-    const reply = response.data.generations[0].text.trim();
+    const reply = chatCompletion.choices[0]?.message?.content?.trim() || '';
     res.json({ reply });
   } catch (error) {
-    console.error('Cohere API Error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Error connecting to Cohere API' });
+    console.error('Groq API Error:', error.message);
+    res.status(500).json({ error: 'Error connecting to Groq API' });
   }
 });
 
 app.listen(5000, () => {
-  console.log('✅ Cohere chatbot server running at http://localhost:5000');
+  console.log('✅ Groq chatbot server running at http://localhost:5000');
 });
+
